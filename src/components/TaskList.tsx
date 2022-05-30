@@ -16,14 +16,55 @@ export function TaskList() {
 
   function handleCreateNewTask() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+
+    //negando o valor, ele transforma em bool e diz se tem algo nele ou nao, pra ver se tem eu dou !!
+    if (!newTaskTitle){
+      return;
+    }
+
+    const newTask = {
+      id:Math.random(),
+      title: newTaskTitle,
+      isComplete: false
+    } 
+
+    //aqui ele basicamente ta pegando a antiga lista, somando mais um, e setando a nova lista
+    //isso é feito pra evitar alguns problemas, usando o conceito de callback
+    setTasks(oldState => [...oldState,newTask]);
+    setNewTaskTitle('');
   }
 
   function handleToggleTaskCompletion(id: number) {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+
+    // A minha solucao, que funciona mas tira o elemento alterado da orgem de joga pro fim
+    /* 
+    const selectedTask = tasks.filter(task => task.id == id);
+    const foundTask = selectedTask[0];
+    foundTask.isComplete = !foundTask.isComplete;
+    const filteredTasks = tasks.filter(task => task.id != id);
+    filteredTasks.push(foundTask);
+    setTasks(filteredTasks);
+    */
+
+    // Solucao do exercicio
+
+    //cria uma lista onde, se o ID for o recebido, ele inverte o status, senao pega ela como ta
+    const changedTasks = tasks.map(task => task.id == id ? {
+      ...task,
+      isComplete: !task.isComplete
+    } : task )
+
+    setTasks(changedTasks);
+
   }
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
+
+    const filteredTasks = tasks.filter(task => task.id != id);
+
+    setTasks(filteredTasks);
   }
 
   return (

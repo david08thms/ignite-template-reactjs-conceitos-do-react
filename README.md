@@ -10,5 +10,7 @@ https://www.youtube.com/watch?v=qFuxsmgQs4Q
 Start the app
 
 yarn
+
 yarn dev
+
 access http://localhost:8080/
